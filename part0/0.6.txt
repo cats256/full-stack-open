@@ -1,0 +1,10 @@
+sequenceDiagram
+    participantBrowser
+    participantServer
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa with json
+    activate server
+    server-->>browser: response with HTTP 201 created
+    deactivate server
+
+    Note right of browser: The browser starts executing the JavaScript code that changes the JSON locally

@@ -1,0 +1,30 @@
+sequenceDiagram
+    participantBrowser
+    participantServer
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note with JSON
+    activate server
+    server-->>browser: response with HTTP 302 redirect to https://studies.cs.helsinki.fi/exampleapp/new_note
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: response with HTTP 200 OK
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: response with HTTP 200 OK
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: response with HTTP 200 OK
+    deactivate server
+
+    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: response with HTTP 200 OK
+    deactivate server
