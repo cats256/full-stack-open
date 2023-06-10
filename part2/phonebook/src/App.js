@@ -16,7 +16,7 @@ const PersonForm = ({ addPerson, newName, handleNameChange, newNumber, handleNum
   </form>
 )
 
-const Persons = ({ personsToShow }) => <div>{personsToShow.map(person => <Person key={person.name} person={person}/>)}</div>
+const Persons = ({ personsToShow }) => <div>{personsToShow.map(person => <Person key={person.id} person={person}/>)}</div>
 
 const App = () => {
   const [persons, setPersons] = useState([
