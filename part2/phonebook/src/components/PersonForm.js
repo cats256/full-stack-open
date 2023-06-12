@@ -1,6 +1,6 @@
 import personService from '../services/persons'
 
-const PersonForm = ({ persons, setPersons, newName, setNewName, newNumber, setNewNumber }) => {  
+const PersonForm = ({ persons, setPersons, newName, setNewName, newNumber, setNewNumber, setMessage, setStatus }) => {  
     const addPerson = (event) => {
       event.preventDefault()
       if (persons.find(person => person.name === newName)) {
@@ -14,6 +14,9 @@ const PersonForm = ({ persons, setPersons, newName, setNewName, newNumber, setNe
             setPersons(persons.concat(returnedPerson))
             setNewName('')
             setNewNumber('')
+            setMessage(`Added ${newName}`)
+            setStatus('success')
+            setTimeout(() => setMessage(null), 2000)
           })
       }
     }
