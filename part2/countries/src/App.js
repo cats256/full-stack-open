@@ -17,7 +17,7 @@ const App = () => {
   }, [countries, filter])
 
   return (
-    <div>
+    <div className="page">
       <SearchForm filter={filter} setFilter={setFilter} />
       <Countries countriesToShow={countriesToShow} setCountriesToShow={setCountriesToShow} />
     </div>
