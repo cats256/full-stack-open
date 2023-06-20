@@ -4,4 +4,3 @@ fly.toml
 Dockerfile
 .dockerignore
 .env
-build/
