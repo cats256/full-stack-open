@@ -1,33 +1,81 @@
-import personService from '../services/persons'
+import personService from "../services/persons";
 
-const PersonForm = ({ persons, setPersons, newName, setNewName, newNumber, setNewNumber, setMessage, setStatus }) => {  
-    const addPerson = (event) => {
-      event.preventDefault()
-      if (persons.find(person => person.name === newName)) {
-        alert(`${newName} is already added to phonebook`)
-      } else {
-        const personObject = {name: newName, number: newNumber}
-  
-        personService
-          .create(personObject)
-          .then(returnedPerson => {
-            setPersons(persons.concat(returnedPerson))
-            setNewName('')
-            setNewNumber('')
-            setMessage(`Added ${newName}`)
-            setStatus('success')
-            setTimeout(() => setMessage(null), 2000)
-          })
-      }
+const PersonForm = ({
+  persons,
+  setPersons,
+  newName,
+  setNewName,
+  newNumber,
+  setNewNumber,
+  setMessage,
+  setStatus,
+}) => {
+  const success = () => {
+    setNewName("");
+    setNewNumber("");
+    setStatus("success");
+    setTimeout(() => setMessage(null), 2000);
+  };
+
+  const catchError = (error) => {
+    setMessage(`${error.response.data.error}`);
+    setStatus("error");
+    setTimeout(() => setMessage(null), 2000);
+  };
+
+  const addPerson = (event) => {
+    event.preventDefault();
+    const personObject = { name: newName, number: newNumber };
+
+    if (persons.find((person) => person.name === newName)) {
+      const personIndex = persons.findIndex(
+        (person) => person.name === newName
+      );
+
+      personService
+        .update(persons[personIndex].id, personObject)
+        .then((returnedPerson) => {
+          const newPeople = persons;
+
+          newPeople[personIndex].number = returnedPerson.number;
+          setPersons(newPeople);
+          setMessage(`Updated ${newName}`);
+          success();
+        })
+        .catch(catchError);
+    } else {
+      personService
+        .create(personObject)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setMessage(`Added ${newName}`);
+          success();
+        })
+        .catch(catchError);
     }
-  
-    return (
-      <form onSubmit={addPerson}>
-        <div>Name: <input value={newName} onChange={(event) => setNewName(event.target.value)} /></div>
-        <div>Number: <input value={newNumber} onChange={(event) => setNewNumber(event.target.value)} /></div>
-        <div><button type="submit">Add</button></div>
-      </form>
-    )
-}
+  };
 
-export default PersonForm
+  return (
+    <form onSubmit={addPerson}>
+      <div>
+        Name:{" "}
+        <input
+          value={newName}
+          onChange={(event) => setNewName(event.target.value)}
+        />
+      </div>
+      <div>
+        Number:{" "}
+        <input
+          value={newNumber}
+          onChange={(event) => setNewNumber(event.target.value)}
+        />
+      </div>
+      <div>
+        <button type="submit">Add</button>
+      </div>
+    </form>
+  );
+};
+
+export default PersonForm;

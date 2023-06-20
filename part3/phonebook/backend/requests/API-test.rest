@@ -1,4 +1,5 @@
-DELETE http://localhost:3001/api/persons/4
+###
+GET http://localhost:3001/api/persons
 
 ###
 POST http://localhost:3001/api/persons
@@ -9,12 +10,17 @@ Content-Type: application/json
     "number": "123-456-7890"
 }
 
-
-###
-GET http://localhost:3001/api/persons
-
-###
-DELETE http://localhost:3001/api/persons
-
 ###
 GET http://localhost:3001/api/persons/648f304cfff9450e0b9819bf
+
+###
+DELETE http://localhost:3001/api/persons/648f304cfff9450e0b9819bf
+
+###
+PUT http://localhost:3001/api/persons/648f31011c1368f34dd14402
+Content-Type: application/json
+
+{ 
+    "name": "Arto Lovelace", 
+    "number": "123-456-7890"
+}
