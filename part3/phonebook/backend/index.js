@@ -5,20 +5,6 @@ require("dotenv").config();
 
 const Person = require("./models/person");
 
-const unknownEndpoint = (req, res) => {
-  res.status(404).send({ error: "unknown endpoint" });
-};
-
-const errorHandler = (error, req, res, next) => {
-  console.error(error.message);
-
-  if (error.name === "CastError") {
-    return res.status(400).send({ error: "malformatted id" });
-  }
-
-  next(error);
-};
-
 app.use(express.static("build"));
 app.use(express.json());
 
@@ -38,25 +24,18 @@ app.get("/api/persons", (req, res) => {
   });
 });
 
-app.post("/api/persons", (req, res) => {
-  const body = req.body;
-
-  Person.find().then((people) => {
-    if (!body.name) {
-      res.status(400).send({ error: "name is missing" });
-    } else if (!body.number) {
-      res.status(400).send({ error: "number is missing" });
-    } else {
-      const person = new Person({
-        name: body.name,
-        number: body.number,
-      });
-
-      person.save().then((person) => {
-        res.json(person);
-      });
-    }
+app.post("/api/persons", (req, res, next) => {
+  const person = new Person({
+    name: req.body.name,
+    number: req.body.number,
   });
+
+  person
+    .save()
+    .then((person) => {
+      res.json(person);
+    })
+    .catch((error) => next(error));
 });
 
 app.get("/api/persons/:id", (req, res, next) => {
@@ -80,25 +59,40 @@ app.delete("/api/persons/:id", (req, res, next) => {
 });
 
 app.put("/api/persons/:id", (req, res, next) => {
-  const body = req.body;
+  const person = {
+    name: req.body.name,
+    number: req.body.number,
+  };
 
-  if (body.number) {
-    const person = {
-      name: body.name,
-      number: body.number,
-    };
-
-    Person.findByIdAndUpdate(req.params.id, person, { new: true })
-      .then((person) => {
-        res.json(person);
-      })
-      .catch((error) => next(error));
-  } else {
-    res.status(400).send({ error: "number is missing" });
-  }
+  Person.findByIdAndUpdate(req.params.id, person, {
+    new: true,
+    runValidators: true,
+    context: "query",
+  })
+    .then((person) => {
+      res.json(person);
+    })
+    .catch((error) => next(error));
 });
 
+const unknownEndpoint = (req, res) => {
+  res.status(404).send({ error: "unknown endpoint" });
+};
+
 app.use(unknownEndpoint);
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === "CastError" && error.kind == "ObjectId") {
+    return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
+  }
+
+  next(error);
+};
+
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3001;

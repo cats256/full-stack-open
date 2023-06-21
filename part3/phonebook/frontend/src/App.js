@@ -4,6 +4,7 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import Notification from "./components/Notification";
+import "./index.css";
 
 const App = () => {
   const [message, setMessage] = useState(null);
@@ -18,7 +19,7 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <div class="app">
       <h2>Phonebook</h2>
       <Notification message={message} status={status} />
       <Filter filter={filter} setFilter={setFilter} />
@@ -41,7 +42,7 @@ const App = () => {
         setMessage={setMessage}
         setStatus={setStatus}
       />
-    </>
+    </div>
   );
 };
 
