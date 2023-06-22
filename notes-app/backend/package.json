@@ -10,7 +10,8 @@
     "build:ui": "rm -rf build && cd ../part2-notes/ && npm run build && cp -r build ../notes-backend",
     "deploy": "fly deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
-    "logs:prod": "fly logs"
+    "logs:prod": "fly logs",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +24,8 @@
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.2.15",
+    "eslint": "^8.43.0",
+    "eslint-plugin-react": "^7.32.2",
     "nodemon": "^2.0.20"
   }
 }
