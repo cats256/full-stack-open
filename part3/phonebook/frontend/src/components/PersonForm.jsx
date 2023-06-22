@@ -1,6 +1,8 @@
-import personService from "../services/persons";
+import React from 'react';
+import PropTypes from 'prop-types';
+import personService from '../services/persons';
 
-const PersonForm = ({
+function PersonForm({
   persons,
   setPersons,
   newName,
@@ -9,17 +11,17 @@ const PersonForm = ({
   setNewNumber,
   setMessage,
   setStatus,
-}) => {
+}) {
   const success = () => {
-    setNewName("");
-    setNewNumber("");
-    setStatus("success");
+    setNewName('');
+    setNewNumber('');
+    setStatus('success');
     setTimeout(() => setMessage(null), 2000);
   };
 
   const catchError = (error) => {
     setMessage(`${error.response.data.error}`);
-    setStatus("error");
+    setStatus('error');
     setTimeout(() => setMessage(null), 2000);
   };
 
@@ -29,7 +31,7 @@ const PersonForm = ({
 
     if (persons.find((person) => person.name === newName)) {
       const personIndex = persons.findIndex(
-        (person) => person.name === newName
+        (person) => person.name === newName,
       );
 
       personService
@@ -58,14 +60,16 @@ const PersonForm = ({
   return (
     <form onSubmit={addPerson}>
       <div>
-        Name:{" "}
+        Name:
+        {' '}
         <input
           value={newName}
           onChange={(event) => setNewName(event.target.value)}
         />
       </div>
       <div>
-        Number:{" "}
+        Number:
+        {' '}
         <input
           value={newNumber}
           onChange={(event) => setNewNumber(event.target.value)}
@@ -76,6 +80,17 @@ const PersonForm = ({
       </div>
     </form>
   );
+}
+
+PersonForm.propTypes = {
+  persons: PropTypes.isRequired,
+  setPersons: PropTypes.isRequired,
+  newName: PropTypes.isRequired,
+  setNewName: PropTypes.isRequired,
+  newNumber: PropTypes.isRequired,
+  setNewNumber: PropTypes.isRequired,
+  setMessage: PropTypes.isRequired,
+  setStatus: PropTypes.isRequired,
 };
 
 export default PersonForm;
