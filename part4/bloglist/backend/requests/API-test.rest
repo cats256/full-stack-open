@@ -1,0 +1,28 @@
+###
+GET http://localhost:3003/api/blogs
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{ 
+  "title": "String",
+  "author": "String",
+  "url": "String",
+  "likes": 0
+}
+
+###
+GET http://localhost:3003/api/blog/648f304cfff9450e0b9819bf
+
+###
+DELETE http://localhost:3003/api/blog/648f304cfff9450e0b9819bf
+
+###
+PUT http://localhost:3003/api/blog/648f31011c1368f34dd14402
+Content-Type: application/json
+
+{ 
+    "name": "Arto Lovelace", 
+    "number": "123-456-7890"
+}
