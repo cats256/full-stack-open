@@ -1,6 +1,11 @@
-trash/
-node_modules/
+trash
+node_modules
 fly.toml
 Dockerfile
 .dockerignore
 .env
+other-apps
+notes-app
+public
+template
+testing
