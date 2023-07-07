@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import getCountries from './services/countries'
 import SearchForm from './components/SearchForm'
 import Countries from './components/Countries'
-import './index.css'
+import './App.css'
 
 const App = () => {
   const [filter, setFilter] = useState('')
